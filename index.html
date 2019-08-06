@@ -7,7 +7,7 @@
   <script src='https://www.w3.org/Tools/respec/respec-w3c' async class='remove'></script>
   <script class='remove'>
     var respecConfig = {
-      specStatus: "ED",
+      specStatus: "unofficial",
       edDraftURI: "https://w3c.github.io/danmaku/",
       shortName: "danmaku",
       editors: [{
@@ -45,7 +45,6 @@
         repoURL: "https://github.com/w3c/danmaku",
         branch: "master"
       },
-      processVersion: 2019,
     };
   </script>
 </head>
@@ -53,22 +52,22 @@
 <body>
   <section id='abstract'>
     <p>
-      This document provides use cases and requirements for Danmaku, and propose a few Web APIs to easily enable Danmaku in the Web Browsers.
+      此文档描述了弹幕的一系列用例与需求，并且提出一个新的 Web 接口以在浏览器中更轻便地实现弹幕功能。
     </p>
   </section>
   <section id='sotd'>
     <p>
-      这是一份进行中的提案草稿。欢迎参加 <a href="https://w3c.github.io/chinese-ig/">W3C Web 中文兴趣组</a> 关于弹幕的相关讨论。
+      这是一份进行中的提案草稿。欢迎参加 <a href="https://w3c.github.io/chinese-ig/">W3C Web 中文兴趣组</a>关于弹幕的相关讨论。
     </p>
   </section>
-  <section>
+  <section id='introduction'>
     <h2>引言</h2>
     <p>
-      弹幕在日本被称呼为评论（コメント/comment），指代的是在视频的特定时间点以某种规律漂浮在视频上的评论或注释，可为视频观赏带来趣味性和意想不到的体验，
+      弹幕（dàn mù）在日本被称呼为评论（コメント/comment），指代的是在视频的特定时间点以某种规律漂浮在视频上的评论或注释，可为视频观赏带来趣味性和意想不到的体验，
       只有当大量评论同时出现在屏幕上时，人们才把这种状态称为“弹幕”。在中国，为了避免和原有评论的功能所冲突，改名为弹幕。
     </p>
     <p>
-      弹幕最早在日本 niconico (ニコニコ) 弹幕视频网站出现。在中国除了 bilibili、acfun 这样的弹幕视频网站外，大部分视频网站，如咪咕视频、腾讯视频、爱奇艺视频、优酷视频等都具有弹幕功能。
+      弹幕最早在日本 niconico (ニコニコ) 弹幕视频网站出现。在中国除了 bilibili、AcFun 这样的弹幕视频网站外，大部分视频网站，如咪咕视频、腾讯视频、爱奇艺视频、优酷视频等都具有弹幕功能。
     </p>
     <figure>
       <img alt="示例示意图" src="images/danmaku.png" width="600">
@@ -157,7 +156,7 @@
         <li>芒果TV：月活10026.7万</li>
         <li>哔哩哔哩动画：月活8065.2万</li>
         <li>搜狐视频：月活3635.0万</li>
-        <li>Niconico(日本)：月活1874万 [<a
+        <li>Niconico（日本）：月活1874万 [<a
             href='https://ssl4.eir-parts.net/doc/9468/ir_material_for_fiscal_ym/64532/00.pdf'>数据来源</a>]</li>
         <li>咪咕视频：月活1562.5万</li>
       </ul>
@@ -166,7 +165,7 @@
 
   </section>
 
-  <section>
+  <section id="terminology">
     <h2>术语</h2>
     <p>
       <p>
@@ -271,7 +270,7 @@
     </section>
   </section>
 
-  <section data-dfn-for="Foo" data-link-for="Foo">
+  <section id="scenarios">
     <h2>使用场景</h2>
     本节主要描述弹幕的具体使用场景。
     <section>
@@ -308,16 +307,21 @@
         由于弹幕只会在视频中特定的一个时间点出现，如果某个时间点出现大量弹幕，说明该时间点具有亮点和高能，观众对此时间点事件异常感兴趣，也能够作为视频打点和推荐等功能的参考数据。
       </p>
     </section>
-
     <section>
       <h2>视频内容增强</h2>
       <p>
         在视频点播或直播过程中，存在一些阶段，用户关注的不再是视频本身的画面内容，而是某个点所激发的情绪、情感，此时观看者通过弹幕叠加在视频上能够增强视频此时的效果，达到更好的体验。比如比赛胜利、剧情高潮时用以渲染气氛、或对惊悚恐怖部分的遮盖处理以降低恐惧感等。
       </p>
       <figure>
+        <img alt="视频内容增强案例截图" src="images/content-no-bulletchat.png" width="600">
+        <figcaption>
+          视频内容增强弹幕案例-截图为恐怖片的恐怖场景下，没有弹幕遮盖
+        </figcaption>
+      </figure>
+      <figure>
         <img alt="视频内容增强案例截图" src="images/content.png" width="600">
         <figcaption>
-          视频内容增强弹幕案例-截图为恐怖片的恐怖场景下，弹幕的遮盖降低了恐怖的气氛
+          视频内容增强弹幕案例-截图为恐怖片的恐怖场景下，有弹幕的遮盖降低了恐怖的气氛
         </figcaption>
       </figure>
     </section>
@@ -351,6 +355,30 @@
         </figcaption>
       </figure>
     </section>
+    <section>
+      <h2>蒙版弹幕</h2>
+      <p>
+        观看视频的时候，可能会因为观众对于内容的喜爱或者吐槽而有大量的弹幕在同时出现在画面上，此时就会把视频本身的内容覆盖的严严实实，影响大家对于视频内容的观看，比如学习舞蹈的时候被弹幕覆盖看不清舞蹈的动作等。这种情况下，就可以借助计算机视觉和AI的能力，对视频内容进行分析，并将之前已经定义好的“视频主体内容”进行识别，生成蒙版并分发给客户端后，客户端利用CSS3的特性进行渲染从而达成弹幕不会覆盖定义的“视频主体内容”的效果，这种弹幕被称为“蒙版弹幕”，也被称为“防挡弹幕”。
+      </p>
+      <figure>
+        <img alt="蒙版弹幕" src="images/bulletchat-Anti-block.png" width="600">
+        <figcaption>
+          图为防挡弹幕中没有被弹幕遮挡的舞者
+        </figcaption>
+      </figure>
+    </section>
+    <section>
+      <h2>非文字弹幕</h2>
+      <p>
+        弹幕内容可以包含emoji表情和图片等非文字内容，更加形象丰富的表达观看者的想法和观点。
+      </p>
+      <figure>
+        <img alt="非文字弹幕" src="images/bulletchat-fig.png" width="600">
+        <figcaption>
+          图为弹幕内容中包含图片和emoji表情内容
+        </figcaption>
+      </figure>
+    </section>
   </section>
 
   <section>
@@ -373,8 +401,12 @@
       </figure>
       <p class="note">
         弹幕采用全新的标签元素<code>bulletchatlist</code>和<code>bulletchat</code>，新增的弹幕标签元素不是<code>video</code>或者<code>audio</code>等元素的子元素。从“<a
-          href="#generatedID-8">使用场景</a>”可以看到，弹幕不仅只是和视频等媒体元素有关联，在“<a href="#web">Web页面</a>”或者“<a
-          href="#generatedID-13">互动上墙</a>”等场景下弹幕是独立作为页面的一部分存在，不依赖于视频等元素。
+          href="#generatedID-9">使用场景</a>”可以看到，弹幕不仅只是和视频等媒体元素有关联，在“<a href="#web">Web页面</a>”或者“<a
+          href="#generatedID-14">互动上墙</a>”等场景下弹幕是独立作为页面的一部分存在，不依赖于视频等元素。
+      </p>
+      <p class="note">
+        弹幕规范描述了弹幕绘制方式，不包括外部列表。由于弹幕不依赖于<code>video</code>，因此不要求有弹幕列表。在常见的点播视频弹幕场景中，往往有一个类似[[webvtt1]]这样同步视频时间轴的弹幕列表，
+        这种情况需要由开发者根据视频时间添加<code>bulletchat</code>。
       </p>
     </section>
 
@@ -461,7 +493,7 @@
     <section>
       <h2>样式</h2>
       <section>
-        <h2>bulletchatlist元素</h2>
+        <h2>bulletchatlist 元素</h2>
         <ul>
           <li><code>bulletchat-play-state</code>：running | paused，定义弹幕状态为运行或暂停，可继承。</li>
           <li><code>bulletchat-duration</code>：&lt;time&gt;，单位为秒(s)或者毫秒(ms)，定义弹幕播放速度，可继承。</li>
@@ -470,7 +502,7 @@
       </section>
 
       <section>
-        <h2>bulletchat元素</h2>
+        <h2>bulletchat 元素</h2>
         <ul>
           <li><code>bulletchat-play-state</code>：running | paused，定义弹幕状态为运行或者暂停，可继承。</li>
           <li><code>bulletchat-duration</code>：&lt;time&gt;，单位为秒(s)或者毫秒(ms)，定义弹幕播放速度，可继承。</li>
@@ -481,9 +513,16 @@
       </section>
     </section>
 
-
   </section>
-
+  <section>
+      <h2>弹幕和WebVTT的差别</h2>
+      <p>[[webvtt1]]是一种用于标记文本轨道的文件格式，[[webvtt1]]的典型应用场景为视频字幕。而目前弹幕的典型应用场景也都是和视频关联的，弹幕一度被称为是字幕的一个子集，是一种特殊的字幕形式。</p>
+      <p>其实，并不是这样。从“<a href="#generatedID-9">使用场景</a>”可以看到，弹幕使用场景包含和视频关联的场景，也包括不和视频相关联的场景，如：“<a href="#web">Web页面</a>”和“<a href="#generatedID-14">互动上墙</a>”等场景，都是独立作为页面的一部分，而不依赖于视频等媒体元素。</p>
+      <p>弹幕如果作为[[webvtt1]]的一个子集的话，那么在使用形式上可能需要按照[[webvtt1]]的方式，在<code>video</code>元素中使用<code>track</code>vtt文件的方式来引用弹幕文件。在“<a href="#generatedID-9">使用场景</a>”中的“<a href="#generatedID-11">直播视频互动</a>”场景中，因为直播中的弹幕数据是实时用户发布的数据，而没有一个弹幕文件预先被<code>track</code>引用。即使在“<a href="#generatedID-10">点播视频互动</a>”场景中也是存在实时发送弹幕数据的场景的，所以预先被<code>track</code>弹幕文件是不现实的。</p>
+      <p>从弹幕和[[webvtt1]]的场景上来看，两者有着不同的交互方式。[[webvtt1]]是字幕，基本没有特殊的交互，只是展示视频时间轴上固定时间段内的内容的文本表达形式；而弹幕所承载的内容不是视频中内容的文本表达，而是对于视频内容的一种观看者主观理解的表达，有的弹幕是需要有交互的，比如观看者想看清楚某一条快速滚动的弹幕，他就可以鼠标悬停来实现弹幕不滚动，或者点击某一条弹幕查看更多的信息等，所以在交互方式上弹幕和[[webvtt1]]存在着明显的差别。</p>
+      <p>除此之外，弹幕的展现方式和[[webvtt1]]的字幕也有着很大的区别，[[webvtt1]]的字幕只能在视频的固定位置展示，同一时间只能展示一条。而弹幕是灵活的展现形式，可以固定的展示，但更多的是滚动的展现方式。一条[[webvtt1]]字幕展示的内容长度是有限制的，而弹幕可以同时展示数倍于[[webvtt1]]字幕的数量的内容，所以对于承载的内容规模，[[webvtt1]]也无法满足弹幕的需求，大规模的弹幕内容展示是弹幕的典型的用户场景，因此和[[webvtt1]]存在着明显的区别。</p>
+      <p>所以，综上所述：弹幕和WebVTT从典型使用场景上看有些类似，但是从背后的实现功能和实现原理上又有很大区别，所以在考虑弹幕标准化的时候没有作为WebVTT的一个子集的方向的原因就是如此。</p>
+  </section>
 </body>
 
 </html>
